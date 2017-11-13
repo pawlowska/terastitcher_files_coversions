@@ -11,11 +11,9 @@ import readMetadata, listaPozycji
 import tkinter as tk
 from tkinter import filedialog
 
-# KONFIGURACJA
-zStep=10
-slices=466
-nazwa_katalogu=nazwa_pliku='mysz358_CAV2_2'
-######
+# pick stage
+stagePicardXY = 'Picard XY Stage'
+stageStandaXY = 'Standa8SMC4XY'
 
 print('Pick directory!')
 
@@ -27,13 +25,12 @@ rawDataDir = filedialog.askdirectory()
 #find metadata file in it
 nazwaPliku=''
 for file in os.listdir(rawDataDir):
-    if file.endswith('ositions.txt'): 
+    if file.endswith('_metadata.txt'): 
         nazwaPliku=file
 
 #read information from metadata file into dic and create lists
-dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPliku)
-print(dic)
-lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
+dic = readMetadata.zrobListeStringow(rawDataDir, nazwaPliku, stageStandaXY)
+lZ = listaPozycji.listaPozycji1dim(0, dic['zStep'], dic['slices'])
 lXY = dic['listaStringow']
 #choosing unique values from the list of all X positions
 used=[]
@@ -83,6 +80,7 @@ def movingVan(parent, listaX, listaXY):
             if(d.startswith(dX+'_')):
                 os.rename(os.path.abspath(d), os.path.abspath(os.path.join(dX,d)))
     
+nazwa_katalogu=nazwa_pliku='mapa_1'
 dataDir=os.path.abspath(os.path.join(rawDataDir,'imageSeries'))
 
 def doIt(dataDir, lX, lXY, lZ):

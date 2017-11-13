@@ -58,7 +58,7 @@ def movingVanPos(parent, listaXY):
     #listaFolderow = os.listdir(parent)
     i = 0 #moved so far    
     for f in lista:
-        if(f.endswith('.ome.tif')):
+        if(f.endswith('.tif')):
             os.rename(os.path.abspath(f), os.path.abspath(os.path.join(listaXY[i],listaXY[i]+'.tif')))
             i=i+1
 
