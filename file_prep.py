@@ -8,32 +8,42 @@ Created on Tue Feb 23 10:44:03 2016
 import os, re
 import readMetadata, listaPozycji, prepFunctions
 
-
 # KONFIGURACJA
 zStep=4
 slices=1374
-nazwa_katalogu=nazwa_pliku='488_medium_1'
-nazwa_series='imageSeries_corBasic'
+nazwa_series='imageSeries'
+suffixPlikuPozycji='low.txt'
 ######
 
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
-nazwaPliku=''
-for file in os.listdir(rawDataDir):
-    if file.endswith('medium.txt'): 
-#    if file.endswith('positions.txt'): 
-#    if file.endswith('metadata.txt'): 
-        nazwaPliku=file
+nazwaPlikuPozycji=''
+l=os.listdir(rawDataDir)
+nazwaPlikuPozycji = [i for i in l if i.endswith(suffixPlikuPozycji)][0]
 
-#read information from metadata file into dic and create lists
-dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPliku)
-print(dic)
+#if (nazwaPlikuPozycji==''):
+#    print('Positions file not found')
+#for file in os.listdir(rawDataDir):
+#    if file.endswith('metadata.txt'): 
+#        nazwaPlikuPozycji=file
+
+#znajdz nazwy katalogow z danymi
+l=os.listdir(os.path.abspath(os.path.join(rawDataDir, nazwa_series)))
+first_dir=[i for i in l if i.endswith('_Pos00')][0]
+nazwa_katalogu=nazwa_pliku=first_dir[:-6]
+        
+#create Z list
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
+#read information from metadata file into dic and create lists
+dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
+print(dic)
 lXY = dic['listaStringow']
 #choosing unique values from the list of all X positions
 used=[]
 lX = [x for x in dic['listaXow'] if x not in used and (used.append(x) or True)]
+
+
 
 def batchRenamingList(parent, prefixWas, listaNazw, prefix = '', suffix = '', verbose = False):
     os.chdir(parent)    
