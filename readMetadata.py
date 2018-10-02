@@ -4,8 +4,6 @@
 
 import json, os
 
-
-    
 def zrobListeStringowMM2(dataDir, nazwaPliku):
     f = open(os.path.join(dataDir, nazwaPliku))
     t = f.read()
@@ -17,7 +15,6 @@ def zrobListeStringowMM2(dataDir, nazwaPliku):
     listaXow = []
 
     for p in jObject:
-        temp=p['subpositions']
         x=p['subpositions'][0]['x']
         y=p['subpositions'][0]['y']
         s = format(10*x, '06')+'_'+format(10*y, '06')
