@@ -10,7 +10,6 @@ import readMetadata, listaPozycji, prepFunctions
 
 # KONFIGURACJA
 zStep=4
-slices=1374
 nazwa_series='imageSeries'
 suffixPlikuPozycji='low.txt'
 ######
@@ -29,9 +28,14 @@ nazwaPlikuPozycji = [i for i in l if i.endswith(suffixPlikuPozycji)][0]
 #        nazwaPlikuPozycji=file
 
 #znajdz nazwy katalogow z danymi
-l=os.listdir(os.path.abspath(os.path.join(rawDataDir, nazwa_series)))
+dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
+l=os.listdir(dataDir)
 first_dir=[i for i in l if i.endswith('_Pos00')][0]
 nazwa_katalogu=nazwa_pliku=first_dir[:-6]
+
+#policz pliki
+l=os.listdir(os.path.abspath(os.path.join(dataDir,first_dir)))
+slices=len(l)
         
 #create Z list
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
@@ -77,7 +81,6 @@ def batchRenaming(parent, listaXY, listaZ, folderPrefix, filenamePrefix):
         batchRenamingList(dirPath, filenamePrefix, lZ, s+'_', suffix='.tif')
         i=i+1
 
-dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
 
 def doIt(dataDir, lX, lXY, lZ):
     #make directories corresponding to X postions
