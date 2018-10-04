@@ -46,3 +46,18 @@ def correctNames(basedir, old, new) : #podmien substring old na new w basedir
             for p in listaPlikow:
                 pNew = p.replace(old, new)
                 os.rename(p, pNew)
+                
+def findPositionsFile(rawDataDir):
+    suffixTxt='.txt'
+    prefixInne='displaySettings'
+    nazwaTxt=[i for i in os.listdir(rawDataDir) if i.endswith(suffixTxt)]
+    nazwaPlikuPozycjiL = [i for i in nazwaTxt if not i.startswith(prefixInne)]
+
+    if (len(nazwaPlikuPozycjiL)==0):
+        nazwaPlikuPozycji=''
+        print('Positions file not found')
+    else:
+        nazwaPlikuPozycji=nazwaPlikuPozycjiL[0]
+        print('Found positions file: ', nazwaPlikuPozycji)
+        
+    return nazwaPlikuPozycji

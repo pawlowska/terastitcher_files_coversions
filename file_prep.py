@@ -5,7 +5,7 @@ Created on Tue Feb 23 10:44:03 2016
 @author: MPawlowska
 """
 
-import os, re
+import os
 import readMetadata, listaPozycji, prepFunctions
 
 ###### KONFIGURACJA #########
@@ -16,18 +16,7 @@ nazwa_series='imageSeries'
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
-#nazwaPlikuPozycji=''
-l=os.listdir(rawDataDir)
-suffixTxt='.txt'
-prefixInne='displaySettings'
-nazwaTxt=[i for i in l if i.endswith(suffixTxt)]
-nazwaPlikuPozycjiL = [i for i in nazwaTxt if not i.startswith(prefixInne)]
-
-if (len(nazwaPlikuPozycjiL)==0):
-    print('Positions file not found')
-else:
-    nazwaPlikuPozycji=nazwaPlikuPozycjiL[0]
-    print('Found positions file: ', nazwaPlikuPozycji)
+nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
         
 #znajdz nazwy katalogow z danymi
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
