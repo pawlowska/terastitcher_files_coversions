@@ -5,7 +5,7 @@ Created on Mon Jul  9 12:51:06 2018
 @author: MPawlowska
 """
 
-import os, tkinter
+import os, tkinter, re
 from tkinter import filedialog
 
 def wybierzKatalog():
@@ -31,3 +31,18 @@ def movingVan(parent, listaX, listaXY):
         for d in listaXY:
             if(d.startswith(dX+'_')):
                 os.rename(os.path.abspath(d), os.path.abspath(os.path.join(dX,d)))
+
+                
+def correctNames(basedir, old, new) : #podmien substring old na new w basedir
+    for fname in os.listdir(basedir):
+        curpath = os.path.join(basedir, fname)
+        if os.path.isdir(curpath):
+            print(fname)
+            os.chdir(basedir)
+            dNew = re.sub(old, new, fname)
+            os.rename(fname, dNew)
+            os.chdir(os.path.join(basedir,dNew))
+            listaPlikow = os.listdir()
+            for p in listaPlikow:
+                pNew = p.replace(old, new)
+                os.rename(p, pNew)

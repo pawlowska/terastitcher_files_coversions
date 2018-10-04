@@ -6,24 +6,9 @@ Created on Fri Mar  4 14:53:44 2016
 """
 
 import os, re
-import listaPozycji
+import listaPozycji, prepFunctions
 
 dataDir = r'E:\Dane\2016\2016_11\2016_11_21\02_cfos35_powtorka\mysz_cfos35_1\imageSeries\050000'
-
-def correctNames(basedir, old, new) :
-    for fname in os.listdir(basedir):
-        curpath = os.path.join(basedir, fname)
-        if os.path.isdir(curpath):
-            print(fname)
-            os.chdir(basedir)
-            dNew = re.sub(old, new, fname)
-            os.rename(fname, dNew)
-            os.chdir(os.path.join(basedir,dNew))
-            listaPlikow = os.listdir()
-            for p in listaPlikow:
-                pNew = p.replace(old, new)
-                os.rename(p, pNew)
-
 
 correctNames(dataDir, '050000_', '054000_')
 
@@ -47,7 +32,5 @@ def repeatSubdirs(dir):
             
         
 dirT = r'E:\Dane\2016\2016_04\2016_04_20\01_szczurTDP\mapa_1\imageSeries\083000'
-
-
 
 #repeatSubdirs(dirT)
