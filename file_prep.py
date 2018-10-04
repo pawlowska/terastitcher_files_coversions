@@ -8,34 +8,34 @@ Created on Tue Feb 23 10:44:03 2016
 import os, re
 import readMetadata, listaPozycji, prepFunctions
 
-# KONFIGURACJA
+###### KONFIGURACJA #########
 zStep=4
 nazwa_series='imageSeries'
-suffixPlikuPozycji='low.txt'
-######
+#############################
 
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
-nazwaPlikuPozycji=''
+#nazwaPlikuPozycji=''
 l=os.listdir(rawDataDir)
-nazwaPlikuPozycji = [i for i in l if i.endswith(suffixPlikuPozycji)][0]
+suffixTxt='.txt'
+prefixInne='displaySettings'
+nazwaTxt=[i for i in l if i.endswith(suffixTxt)]
+nazwaPlikuPozycjiL = [i for i in nazwaTxt if not i.startswith(prefixInne)]
 
-#if (nazwaPlikuPozycji==''):
-#    print('Positions file not found')
-#for file in os.listdir(rawDataDir):
-#    if file.endswith('metadata.txt'): 
-#        nazwaPlikuPozycji=file
-
+if (len(nazwaPlikuPozycjiL)==0):
+    print('Positions file not found')
+else:
+    nazwaPlikuPozycji=nazwaPlikuPozycjiL[0]
+    print('Found positions file: ', nazwaPlikuPozycji)
+        
 #znajdz nazwy katalogow z danymi
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
-l=os.listdir(dataDir)
-first_dir=[i for i in l if i.endswith('_Pos00')][0]
-nazwa_katalogu=nazwa_pliku=first_dir[:-6]
+first_dir=[i for i in os.listdir(dataDir) if i.endswith('_Pos00')][0]
+nazwa_katalogu_mm=nazwa_pliku_mm=first_dir[:-6]
 
-#policz pliki
-l=os.listdir(os.path.abspath(os.path.join(dataDir,first_dir)))
-slices=len(l)
+#policz Z slices
+slices=len(os.listdir(os.path.abspath(os.path.join(dataDir,first_dir))))
         
 #create Z list
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
@@ -82,17 +82,17 @@ def batchRenaming(parent, listaXY, listaZ, folderPrefix, filenamePrefix):
         i=i+1
 
 
-def doIt(dataDir, lX, lXY, lZ):
+def doIt(dataDir, lX, lXY, lZ, katalog_mm, plik_mm):
     #make directories corresponding to X postions
     prepFunctions.makeDirsX(dataDir, lX)
     print('x position directories completed')
     #rename
-    batchRenaming(dataDir, lXY, lZ, nazwa_katalogu, nazwa_pliku)
+    batchRenaming(dataDir, lXY, lZ, katalog_mm, plik_mm)
     print('renaming completed')
     #move XY files to X directories
     prepFunctions.movingVan(dataDir, lX, lXY)
     print('moving completed')
     os.chdir(os.path.abspath('d:/'))
 
-doIt(dataDir, lX, lXY, lZ)
+doIt(dataDir, lX, lXY, lZ, nazwa_katalogu_mm, nazwa_pliku_mm)
  
