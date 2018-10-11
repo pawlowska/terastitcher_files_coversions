@@ -34,7 +34,10 @@ if (zStep==-1):
      
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
 #read information from metadata file into dic and create lists
-dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
+if nazwaPlikuPozycji.startswith('METADATA_xy'):
+    dic = readMetadata.zrobListeStringowMM2_fromSavedPL(rawDataDir, nazwaPlikuPozycji)
+else:
+    dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
 print(dic)
 lXY = dic['listaStringow']
 #choosing unique values from the list of all X positions

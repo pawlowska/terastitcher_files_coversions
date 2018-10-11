@@ -49,14 +49,19 @@ def correctNames(basedir, old, new) : #podmien substring old na new w basedir
                 
 def findPositionsFile(rawDataDir):
     suffixTxt='.txt'
+    prefixMeta='METADATA_xy'
     prefixInne='displaySettings'
     nazwaTxt=[i for i in os.listdir(rawDataDir) if i.endswith(suffixTxt)]
     nazwaPlikuPozycjiL = [i for i in nazwaTxt if not i.startswith(prefixInne)]
+    nazwaPlikuMetadanych=[i for i in nazwaPlikuPozycjiL if i.startswith(prefixMeta)]
 
     if (len(nazwaPlikuPozycjiL)==0):
         nazwaPlikuPozycji=''
         print('Positions file not found')
-    else:
+    else if (len(nazwaPlikuMetadanych)>0):
+        nazwaPlikuPozycji=nazwaPlikuMetadanych[0]
+        print('Found positions file: ', nazwaPlikuPozycji)
+    else:    
         nazwaPlikuPozycji=nazwaPlikuPozycjiL[0]
         print('Found positions file: ', nazwaPlikuPozycji)
         
