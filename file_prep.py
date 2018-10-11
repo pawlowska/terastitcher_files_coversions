@@ -5,12 +5,11 @@ Created on Tue Feb 23 10:44:03 2016
 @author: MPawlowska
 """
 
-import os
+import os, re
 import readMetadata, listaPozycji, prepFunctions
 
 ###### KONFIGURACJA #########
 zStep=4
-nazwa_series='imageSeries'
 #############################
 
 rawDataDir = prepFunctions.wybierzKatalog()
@@ -19,6 +18,7 @@ rawDataDir = prepFunctions.wybierzKatalog()
 nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
         
 #znajdz nazwy katalogow z danymi
+nazwa_series=prepFunctions.findImageSeries(rawDataDir)
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
 first_dir=[i for i in os.listdir(dataDir) if i.endswith('_Pos00')][0]
 nazwa_katalogu_mm=nazwa_pliku_mm=first_dir[:-6]

@@ -61,3 +61,14 @@ def findPositionsFile(rawDataDir):
         print('Found positions file: ', nazwaPlikuPozycji)
         
     return nazwaPlikuPozycji
+    
+def findImageSeries(rawDataDir):
+    prefix='imageSeries'
+    nazwaL = [i for i in  os.listdir(rawDataDir) if i.startswith(prefix)]
+
+    for nazwa in nazwaL:
+        if (nazwa=='imageSeries' or nazwa=='imageSeries_corBasic'):
+            print('Found directory: ', nazwa)
+            return nazwa
+
+    print('Image series not found')
