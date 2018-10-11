@@ -8,15 +8,15 @@ Created on Tue Feb 23 10:44:03 2016
 import os, re
 import readMetadata, listaPozycji, prepFunctions
 
-###### KONFIGURACJA #########
-zStep=4
-#############################
+###### KONFIGURACJA ########################
+zStep=-1 #use -1 if METADATA_z.txt available
+############################################
 
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
 nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
-        
+
 #znajdz nazwy katalogow z danymi
 nazwa_series=prepFunctions.findImageSeries(rawDataDir)
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
@@ -27,6 +27,11 @@ nazwa_katalogu_mm=nazwa_pliku_mm=first_dir[:-6]
 slices=len(os.listdir(os.path.abspath(os.path.join(dataDir,first_dir))))
         
 #create Z list
+if (zStep==-1):
+    f = open(os.path.join(rawDataDir, "METADATA_z.txt"))
+    zString=f.read()
+    zStep=float(zString)
+     
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
 #read information from metadata file into dic and create lists
 dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
