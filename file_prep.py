@@ -30,7 +30,7 @@ slices=len(os.listdir(os.path.abspath(os.path.join(dataDir,first_dir))))
 if (zStep==-1):
     f = open(os.path.join(rawDataDir, "METADATA_z.txt"))
     zString=f.read()
-    zStep=float(zString)
+    zStep=int(float(zString))
      
 lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
 #read information from metadata file into dic and create lists
@@ -69,7 +69,7 @@ def batchRenaming(parent, listaXY, listaZ, folderPrefix, filenamePrefix):
     parent = os.path.abspath(parent)
     os.chdir(parent)
     #rename directories from original name to XY positions
-    batchRenamingList(parent, folderPrefix, listaXY, verbose = True)
+    batchRenamingList(parent, folderPrefix, listaXY)
     print('directories renaming completed')
     i = 0
     #for each renamed directory, rename files in it    
