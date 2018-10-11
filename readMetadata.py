@@ -26,8 +26,7 @@ def zrobListeStringowMM2(dataDir, nazwaPliku):
     return d
     
     
-    
-def zrobListeStringow(dataDir, nazwaPliku, stageXY):
+def zrobListeStringow(dataDir, nazwaPliku, stageXY='Standa8SMC4XY'):
     f = open(os.path.join(dataDir, nazwaPliku))
     jObject = json.loads(f.read())
 
@@ -48,3 +47,24 @@ def zrobListeStringow(dataDir, nazwaPliku, stageXY):
     d = {'z':z, 'zStep': zStep, 'slices':slices, 'listaStringow':listaStringow, 'listaXow':listaXow}    
     
     return d
+
+def zrobListeStringowMM2_fromSavedPL(dataDir, nazwaPliku, stageXY='Standa8SMC4XY'):
+    f = open(os.path.join(dataDir, nazwaPliku))
+    jObject = json.loads(f.read())
+    listaPoz = jObject['POSITIONS']
+
+    listaStringow = []
+    listaXow = []
+    listaLbl=[]
+
+    for p in listaPoz:
+        listaLbl.append(p['LABEL'])
+        x = p['DEVICES'][0]['X']
+        y = p['DEVICES'][0]['Y']
+        listaStringow.append(format(10*x, '06')+'_'+format(10*y, '06'))
+        listaXow.append(format(10*x, '06'))
+    
+    d = {'listaStringow':listaStringow, 'listaXow':listaXow, 'labels':listaLbl}    
+    
+    return d
+    
