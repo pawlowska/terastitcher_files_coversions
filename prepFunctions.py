@@ -58,7 +58,7 @@ def findPositionsFile(rawDataDir):
     if (len(nazwaPlikuPozycjiL)==0):
         nazwaPlikuPozycji=''
         print('Positions file not found')
-    else if (len(nazwaPlikuMetadanych)>0):
+    elif (len(nazwaPlikuMetadanych)>0):
         nazwaPlikuPozycji=nazwaPlikuMetadanych[0]
         print('Found positions file: ', nazwaPlikuPozycji)
     else:    
