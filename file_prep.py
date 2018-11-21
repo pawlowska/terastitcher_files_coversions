@@ -17,6 +17,7 @@ rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
 nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
+assert(nazwaPlikuPozycji), "No positions file found"
 
 #znajdz nazwy katalogow z danymi
 nazwa_series=prepFunctions.findImageSeries(rawDataDir)
@@ -30,7 +31,9 @@ slices=len(os.listdir(os.path.abspath(os.path.join(dataDir,first_dir))))
         
 #create Z list
 if (zStep==-1):
-    f = open(os.path.join(rawDataDir, "METADATA_z.txt"))
+    meta_z=os.path.join(rawDataDir, "METADATA_z.txt")
+    assert(os.path.isfile(meta_z)), " No METADATA_z.txt file found"
+    f = open(meta_z)
     zString=f.read()
     zStep=int(float(zString))
      
@@ -82,12 +85,12 @@ def batchRenaming(parent, listaXY, listaZ, folderPrefix, filenamePrefix):
 
 
 def doIt(dataDir, lX, lXY, lZ, katalog_mm, plik_mm):
-    #make directories corresponding to X postions
-    prepFunctions.makeDirsX(dataDir, lX)
-    print('x position directories completed')
     #rename
     batchRenaming(dataDir, lXY, lZ, katalog_mm, plik_mm)
     print('renaming completed')
+    #make directories corresponding to X postions
+    prepFunctions.makeDirsX(dataDir, lX)
+    print('x position directories completed')
     #move XY files to X directories
     prepFunctions.movingVan(dataDir, lX, lXY)
     print('moving completed')
