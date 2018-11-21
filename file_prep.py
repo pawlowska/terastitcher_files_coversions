@@ -10,6 +10,7 @@ import readMetadata, listaPozycji, prepFunctions
 
 ###### KONFIGURACJA ########################
 zStep=-1 #use -1 if METADATA_z.txt available
+z0=0
 ############################################
 
 rawDataDir = prepFunctions.wybierzKatalog()
@@ -19,6 +20,7 @@ nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
 
 #znajdz nazwy katalogow z danymi
 nazwa_series=prepFunctions.findImageSeries(rawDataDir)
+#nazwa_series='_1'
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
 first_dir=[i for i in os.listdir(dataDir) if i.endswith('_Pos00')][0]
 nazwa_katalogu_mm=nazwa_pliku_mm=first_dir[:-6]
@@ -32,7 +34,7 @@ if (zStep==-1):
     zString=f.read()
     zStep=int(float(zString))
      
-lZ = listaPozycji.listaPozycji1dim(0, zStep, slices)
+lZ = listaPozycji.listaPozycji1dim(z0*zStep, zStep, slices)
 #read information from metadata file into dic and create lists
 if nazwaPlikuPozycji.startswith('METADATA_xy'):
     dic = readMetadata.zrobListeStringowMM2_fromSavedPL(rawDataDir, nazwaPlikuPozycji)
