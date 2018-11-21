@@ -61,9 +61,13 @@ def zrobListeStringowMM2_fromSavedPL(dataDir, nazwaPliku, stageXY='Standa8SMC4XY
         listaLbl.append(p['LABEL'])
         x = p['DEVICES'][0]['X']
         y = p['DEVICES'][0]['Y']
-        listaStringow.append(format(10*x, '06')+'_'+format(10*y, '06'))
-        listaXow.append(format(10*x, '06'))
-    
+        xs=format(10*x, '06')
+        if xs not in listaXow:
+            listaXow.append(xs)
+        s= format(10*x, '06')+'_'+format(10*y, '06')
+        if s not in listaStringow:
+            listaStringow.append(s)
+        
     d = {'listaStringow':listaStringow, 'listaXow':listaXow, 'labels':listaLbl}    
     
     return d
