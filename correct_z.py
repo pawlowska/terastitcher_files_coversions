@@ -9,22 +9,23 @@ import os
 import readMetadata, listaPozycji, prepFunctions
 
 ###### KONFIGURACJA #########
-zStepOld=4
-zStepNew=10
-nazwa_series='imageSeries'
+zStepOld=10
+zStepNew=4
+nazwa_series=''
+z0=610
 #############################
 
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
-nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
+#nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
 
 #read information from metadata file into dic and create lists
-dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
-lXY = dic['listaStringow']
+#dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
+#lXY = dic['listaStringow']
 #choosing unique values from the list of all X positions
-used=[]
-lX = [x for x in dic['listaXow'] if x not in used and (used.append(x) or True)]
+#used=[]
+#lX = [x for x in dic['listaXow'] if x not in used and (used.append(x) or True)]
 
 #policz Z slices
 dataDir=os.path.abspath(os.path.join(rawDataDir,nazwa_series))
@@ -32,7 +33,7 @@ dirX0=os.path.abspath(os.path.join(dataDir,lX[0]))
 slices=len(os.listdir(os.path.abspath(os.path.join(dirX0,lXY[0]))))
         
 #create Z list
-lZOld = listaPozycji.listaPozycji1dim(0, zStepOld, slices)
+lZOld = listaPozycji.listaPozycji1dim(z0, zStepOld, slices)
 lZNew = listaPozycji.listaPozycji1dim(0, zStepNew, slices)
 
 if(zStepOld>zStepNew):
