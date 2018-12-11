@@ -16,8 +16,8 @@ z0=0
 rawDataDir = prepFunctions.wybierzKatalog()
 
 #find metadata file in it
-nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
-assert(nazwaPlikuPozycji), "No positions file found"
+#nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
+#assert(nazwaPlikuPozycji), "No positions file found"
 
 #znajdz nazwy katalogow z danymi
 nazwa_series=prepFunctions.findImageSeries(rawDataDir)
@@ -39,10 +39,7 @@ if (zStep==-1):
      
 lZ = listaPozycji.listaPozycji1dim(z0*zStep, zStep, slices)
 #read information from metadata file into dic and create lists
-if nazwaPlikuPozycji.startswith('METADATA_xy'):
-    dic = readMetadata.zrobListeStringowMM2_fromSavedPL(rawDataDir, nazwaPlikuPozycji)
-else:
-    dic = readMetadata.zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
+dic=readMetadata.makeDic(rawDataDir)
 print(dic)
 lXY = dic['listaStringow']
 #choosing unique values from the list of all X positions

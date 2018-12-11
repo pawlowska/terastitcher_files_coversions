@@ -66,6 +66,8 @@ def findPositionsFile(rawDataDir):
         print('Found positions file: ', nazwaPlikuPozycji)
         
     return nazwaPlikuPozycji
+
+
     
 def findImageSeries(rawDataDir):
     prefix='imageSeries'

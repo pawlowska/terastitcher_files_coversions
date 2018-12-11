@@ -3,6 +3,7 @@
 #this file is imported in file_prep.py
 
 import json, os
+import prepFunctions
 
 def zrobListeStringowMM2(dataDir, nazwaPliku):
     f = open(os.path.join(dataDir, nazwaPliku))
@@ -72,3 +73,12 @@ def zrobListeStringowMM2_fromSavedPL(dataDir, nazwaPliku, stageXY='Standa8SMC4XY
     
     return d
     
+def makeDic(rawDataDir):
+    #find metadata file in it
+    nazwaPlikuPozycji=prepFunctions.findPositionsFile(rawDataDir)
+    assert(nazwaPlikuPozycji), "No positions file found"
+    if nazwaPlikuPozycji.startswith('METADATA_xy'):
+        dic = zrobListeStringowMM2_fromSavedPL(rawDataDir, nazwaPlikuPozycji)
+    else:
+        dic = zrobListeStringowMM2(rawDataDir, nazwaPlikuPozycji)
+    return dic
