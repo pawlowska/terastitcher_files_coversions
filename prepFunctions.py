@@ -79,3 +79,51 @@ def findImageSeries(rawDataDir):
             return nazwa
 
     print('Image series not found')
+
+def batchRenamingList(parent, prefixWas, listaNazw, prefix = '', suffix = '', verbose = False):
+    os.chdir(parent)    
+    listaPlikow = os.listdir(parent)
+    
+    if verbose:
+        print(parent)
+        print(listaPlikow)
+    i = 0
+    renamed=False
+    for f in listaPlikow:
+        if(re.match(prefixWas, f)): #if the file has the right prefix - to reject metadata files etc
+            nazwa = prefix+listaNazw[i]+suffix
+            #print(f+ ' renaming to '+ nazwa)
+            os.rename(f, nazwa)
+            renamed=True
+            i=i+1
+    if not renamed:
+        print('Nothing to rename!')
+        
+def batchRenaming(parent, listaXY, listaZ, folderPrefix, filenamePrefix):
+    parent = os.path.abspath(parent)
+    os.chdir(parent)
+    #rename directories from original name to XY positions
+    batchRenamingList(parent, folderPrefix, listaXY)
+    print('directories renaming completed')
+    i = 0
+    #for each renamed directory, rename files in it    
+    for s in listaXY:
+        dirPath = os.path.abspath(os.path.join(parent, s))
+        batchRenamingList(dirPath, filenamePrefix, lZ, s+'_', suffix='.tif')
+        i=i+1
+        
+def batchRenamingStack(parent, listaNazw, filenamePrefix):
+    os.chdir(os.path.abspath(parent))
+    listaPlikow = os.listdir(parent)
+    i = 0
+    renamed=False
+    for f in listaPlikow:
+        if(re.match(filenamePrefix, f)): #if the file has the right prefix - to reject metadata files etc
+            nazwa = listaNazw[i]+'.tif'
+            #print(f+ ' renaming to '+ nazwa)
+            os.mkdir(listaNazw[i])
+            os.rename(f, os.path.abspath(os.path.join(listaNazw[i],nazwa)))
+            renamed=True
+            i=i+1
+    if not renamed:
+        print('Nothing to rename!')

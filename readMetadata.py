@@ -60,8 +60,8 @@ def zrobListeStringowMM2_fromSavedPL(dataDir, nazwaPliku, stageXY='Standa8SMC4XY
 
     for p in listaPoz:
         listaLbl.append(p['LABEL'])
-        x = p['DEVICES'][0]['X']
-        y = p['DEVICES'][0]['Y']
+        x = round(p['DEVICES'][0]['X'])
+        y = round(p['DEVICES'][0]['Y'])
         xs=format(10*x, '06')
         if xs not in listaXow:
             listaXow.append(xs)
